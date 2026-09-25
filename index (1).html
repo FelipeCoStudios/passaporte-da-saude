@@ -1,0 +1,2700 @@
+<html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=ai-legible&utm_source=comment&utm_medium=referral&utm_id=d50b5bc2-7d3d-45db-80e3-c566d94bd0d8
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta name="hosting-provider" content="Netlify">
+<meta name="netlify-deploy" content="https://netlify.new/?utm_campaign=ai-legible&amp;utm_source=meta&amp;utm_medium=referral&amp;utm_id=d50b5bc2-7d3d-45db-80e3-c566d94bd0d8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passaporte da Saúde — ODS 3</title>
+    <style>
+         :root {
+            --bg: #F7F4ED;
+            --ink: #1A2332;
+            --green: #1F7A5C;
+            --coral: #E05A3C;
+            --gold: #D4A017;
+            --white: #FFFFFF;
+            --muted: #5C6570;
+            --line: #E0D9CC;
+            --shadow: 0 12px 40px rgba(26, 35, 50, 0.1);
+            --radius: 20px;
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--ink);
+            min-height: 100vh;
+            line-height: 1.55;
+            overflow-x: hidden;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        /* NAV */
+        
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(244, 241, 234, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--line);
+            padding: 0.7rem 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        
+        .nav-brand {
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: 0.04em;
+            color: var(--green);
+            text-transform: uppercase;
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 1.5px solid var(--ink);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 0.3rem;
+        }
+        
+        .nav-list button {
+            background: none;
+            border: none;
+            padding: 0.5rem 0.9rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--ink);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s, color 0.2s;
+        }
+        
+        .nav-list button:hover,
+        .nav-list button:focus-visible {
+            background: var(--ink);
+            color: var(--white);
+            outline: none;
+        }
+        /* SCREENS */
+        
+        .screen {
+            display: none;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.4rem 3rem;
+        }
+        
+        .screen.active {
+            display: block;
+            animation: screenIn 0.4s ease;
+        }
+        
+        @keyframes screenIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* HOME */
+        
+        .hero {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+        }
+        
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--coral);
+            border: 1.5px solid var(--coral);
+            padding: 0.3rem 0.8rem;
+            border-radius: 999px;
+            margin-bottom: 1rem;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.2rem, 6vw, 3.6rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.6rem;
+        }
+        
+        .hero h1 span {
+            color: var(--green);
+        }
+        
+        .hero-sub {
+            font-size: 1.1rem;
+            color: var(--muted);
+            max-width: 420px;
+            margin: 0 auto 1.8rem;
+        }
+        
+        .passport-display {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0 2rem;
+        }
+        
+        .passport-display canvas {
+            width: min(340px, 90vw);
+            height: auto;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .progress-bar-home {
+            max-width: 280px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .progress-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.4rem;
+            color: var(--ink);
+        }
+        
+        .progress-track {
+            height: 8px;
+            background: var(--line);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--green);
+            border-radius: 999px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.85rem 1.6rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        }
+        
+        .btn:active {
+            transform: scale(0.97);
+        }
+        
+        .btn:focus-visible {
+            outline: 3px solid var(--green);
+            outline-offset: 2px;
+        }
+        
+        .btn-primary {
+            background: var(--ink);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background: #0f1620;
+        }
+        
+        .btn-green {
+            background: var(--green);
+            color: var(--white);
+        }
+        
+        .btn-green:hover {
+            background: #246e58;
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            color: var(--ink);
+            border: 1.5px solid var(--line);
+        }
+        
+        .btn-ghost:hover {
+            border-color: var(--ink);
+            background: rgba(23, 33, 43, 0.04);
+        }
+        
+        .btn-coral {
+            background: var(--coral);
+            color: var(--white);
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+        
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+        }
+        /* GAMES MENU */
+        
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.4rem;
+        }
+        
+        .section-title {
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .game-card {
+            background: var(--white);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            text-align: left;
+            font-family: inherit;
+            color: var(--ink);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: var(--shadow);
+            border-color: var(--green);
+        }
+        
+        .game-card:focus-visible {
+            outline: 3px solid var(--green);
+            outline-offset: 2px;
+        }
+        
+        .game-card-num {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--line);
+            line-height: 1;
+            position: absolute;
+            top: 0.8rem;
+            right: 1rem;
+        }
+        
+        .game-card canvas {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+        }
+        
+        .game-card-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-top: 0.2rem;
+        }
+        
+        .game-card-theme {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        .game-card-status {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: auto;
+        }
+        
+        .game-card-status.unlocked {
+            color: var(--green);
+        }
+        
+        .game-card-status.locked {
+            color: var(--muted);
+        }
+        /* QUIZ */
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .quiz-progress-text {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        
+        .quiz-bar {
+            height: 6px;
+            background: var(--line);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .quiz-bar-fill {
+            height: 100%;
+            background: var(--green);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        
+        .question-card {
+            background: var(--white);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+            margin-bottom: 1rem;
+            animation: qIn 0.35s ease;
+            box-shadow: 0 4px 20px rgba(26,35,50,0.04);
+        }
+        
+        @keyframes qIn {
+            from {
+                opacity: 0;
+                transform: translateX(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            line-height: 1.45;
+        }
+        
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        
+        .option-btn {
+            background: var(--bg);
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--ink);
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+        
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--green);
+            background: #e8f5f0;
+        }
+        
+        .option-btn:disabled {
+            cursor: default;
+        }
+        
+        .option-btn.correct {
+            background: #d4edda;
+            border-color: var(--green);
+            color: #155724;
+            animation: correctPulse 0.4s ease;
+        }
+        
+        .option-btn.wrong {
+            background: #f8d7da;
+            border-color: var(--coral);
+            color: #721c24;
+            animation: shake 0.4s ease;
+        }
+        
+        @keyframes correctPulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-6px);
+            }
+            75% {
+                transform: translateX(6px);
+            }
+        }
+        
+        .feedback-box {
+            margin-top: 1rem;
+            padding: 0.9rem 1.1rem;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            line-height: 1.45;
+            animation: qIn 0.3s ease;
+        }
+        
+        .feedback-box.ok {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .feedback-box.bad {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        /* RESULT */
+        
+        .result-card {
+            background: var(--white);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            animation: screenIn 0.4s ease;
+        }
+        
+        .result-card h2 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-score {
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: var(--green);
+            margin: 0.8rem 0;
+        }
+        
+        .result-msg {
+            color: var(--muted);
+            margin-bottom: 1.4rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .result-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+        }
+        /* GALLERY */
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.3rem;
+            margin: 1.5rem 0 2rem;
+        }
+        
+        .gallery-item {
+            background: var(--white);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .gallery-item.unlocked:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        .gallery-item canvas {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 0.7rem;
+            display: block;
+            border-radius: 50%;
+        }
+        
+        .gallery-item h3 {
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+        
+        .gallery-item .status {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.6rem;
+        }
+        
+        .gallery-item .status.ok {
+            color: var(--green);
+        }
+        
+        .gallery-item .status.no {
+            color: var(--muted);
+        }
+        /* COMPLETE */
+        
+        .complete-hero {
+            text-align: center;
+            padding: 1rem 0 2rem;
+        }
+        
+        .complete-hero h2 {
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        
+        .complete-hero p {
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+        
+        .complete-passport {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0 1.5rem;
+        }
+        
+        .complete-passport canvas {
+            width: min(420px, 92vw);
+            height: auto;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .special-badge-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+        
+        .special-badge-wrap canvas {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+        }
+        /* ABOUT */
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.8rem;
+            margin: 1.5rem 0 2rem;
+        }
+        
+        .about-card {
+            background: var(--white);
+            border: 1.5px solid var(--line);
+            border-radius: 14px;
+            padding: 1.1rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+        }
+        
+        .about-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .about-text {
+            max-width: 520px;
+            margin: 0 auto 1.2rem;
+            color: var(--muted);
+            text-align: center;
+        }
+        /* OVERLAY BADGE */
+        
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(23, 33, 43, 0.72);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            animation: fadeOv 0.3s ease;
+        }
+        
+        .overlay.hidden {
+            display: none;
+        }
+        
+        @keyframes fadeOv {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .badge-anim-wrap {
+            position: relative;
+            animation: badgePop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
+        @keyframes badgePop {
+            0% {
+                transform: scale(0.2) rotate(-20deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.12) rotate(4deg);
+                opacity: 1;
+            }
+            70% {
+                transform: scale(0.96) rotate(-2deg);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+                opacity: 1;
+            }
+        }
+        
+        .badge-anim-wrap canvas {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(46, 139, 112, 0.4);
+        }
+        
+        .overlay-title {
+            color: var(--white);
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin: 1.2rem 0 0.4rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.04em;
+        }
+        
+        .overlay-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 0.8rem;
+        }
+        /* MODAL */
+        
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 400;
+            background: rgba(23, 33, 43, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            animation: fadeOv 0.25s ease;
+        }
+        
+        .modal-backdrop.hidden {
+            display: none;
+        }
+        
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem 1.6rem;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: screenIn 0.3s ease;
+        }
+        
+        .modal h3 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 0.6rem;
+        }
+        
+        .modal p {
+            color: var(--muted);
+            margin-bottom: 1.4rem;
+            font-size: 0.95rem;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 0.6rem;
+            justify-content: center;
+        }
+        /* CONFETTI CANVAS */
+        
+        #confettiCanvas {
+            position: fixed;
+            inset: 0;
+            z-index: 350;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+        }
+        /* BACK BTN */
+        
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--green);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-family: inherit;
+            padding: 0.4rem 0;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+        /* RESPONSIVE */
+        
+        @media (max-width: 640px) {
+            .nav-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .nav-list {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg);
+                border-bottom: 1px solid var(--line);
+                padding: 0.8rem;
+            }
+            .nav-list.open {
+                display: flex;
+            }
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .badge-anim-wrap canvas {
+                width: 180px;
+                height: 180px;
+            }
+        }
+        
+        @media (max-width: 380px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav" id="mainNav">
+        <div class="nav-brand">Passaporte da Saúde</div>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">☰</button>
+        <ul class="nav-list" id="navList">
+            <li><button data-screen="home">Início</button></li>
+            <li><button data-screen="games">Jogos</button></li>
+            <li><button data-screen="gallery">Minhas Insígnias</button></li>
+            <li><button data-screen="about">Sobre a ODS 3</button></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- HOME -->
+        <section id="home" class="screen active">
+            <div class="hero">
+                <div class="hero-tag">ODS 03</div>
+                <h1>PASSAPORTE<br><span>DA SAÚDE</span></h1>
+                <p class="hero-sub">Aprenda. Jogue. Conquiste. Uma exposição interativa sobre saúde e bem-estar.</p>
+                <div class="passport-display">
+                    <canvas id="homePassportCanvas" width="680" height="420" aria-label="Passaporte da Saúde"></canvas>
+                </div>
+                <div class="progress-bar-home">
+                    <div class="progress-label">INSÍGNIAS: <span id="homeCount">0</span>/5</div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="homeProgressFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" data-screen="games">Começar Experiência</button>
+                    <button class="btn btn-ghost" id="resetBtn">Reiniciar Progresso</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- GAMES -->
+        <section id="games" class="screen">
+            <button class="back-btn" data-screen="home">← Passaporte</button>
+            <div class="section-label">Desafios</div>
+            <h2 class="section-title">Escolha uma missão</h2>
+            <div class="games-grid" id="gamesGrid"></div>
+        </section>
+
+        <!-- QUIZ -->
+        <section id="quiz" class="screen">
+            <button class="back-btn" data-screen="games">← Jogos</button>
+            <div class="quiz-header">
+                <div class="quiz-progress-text">Pergunta <span id="qNum">1</span> / 5</div>
+                <div class="quiz-progress-text" id="quizTitle"></div>
+            </div>
+            <div class="quiz-bar">
+                <div class="quiz-bar-fill" id="quizBarFill"></div>
+            </div>
+            <div id="questionArea"></div>
+            <div id="resultArea" class="hidden"></div>
+        </section>
+
+        <!-- GALLERY -->
+        <section id="gallery" class="screen">
+            <button class="back-btn" data-screen="home">← Passaporte</button>
+            <div class="section-label">Coleção</div>
+            <h2 class="section-title">Minhas Insígnias</h2>
+            <p style="color:var(--muted);margin-bottom:0.5rem">Você conquistou <strong id="galleryCount">0</strong> de 5 insígnias.</p>
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </section>
+
+        <!-- COMPLETE -->
+        <section id="complete" class="screen">
+            <div class="complete-hero">
+                <div class="hero-tag">Conquista</div>
+                <h2>Passaporte Completo!</h2>
+                <p>Você completou todos os desafios da ODS 3 e se tornou Embaixador da Saúde.</p>
+                <div class="complete-passport">
+                    <canvas id="fullPassportCanvas" width="840" height="560" aria-label="Passaporte completo"></canvas>
+                </div>
+                <div class="special-badge-wrap">
+                    <canvas id="specialBadgeCanvas" width="400" height="400" aria-label="Insígnia Embaixador da Saúde"></canvas>
+                </div>
+                <div class="hero-actions" style="margin-top:1rem">
+                    <button class="btn btn-green" id="downloadFullBtn">Baixar Passaporte PNG</button>
+                    <button class="btn btn-ghost" id="downloadSpecialBtn">Baixar Selo Especial</button>
+                    <button class="btn btn-ghost" data-screen="home">← Passaporte</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="screen">
+            <button class="back-btn" data-screen="home">← Passaporte</button>
+            <div class="section-label">Contexto</div>
+            <h2 class="section-title">O que é a ODS 3?</h2>
+            <p class="about-text">A ODS 3 faz parte dos Objetivos de Desenvolvimento Sustentável e busca promover saúde e bem-estar para todas as pessoas, em todas as idades.</p>
+            <div class="about-grid">
+                <div class="about-card">Insegurança Alimentar</div>
+                <div class="about-card">Alimentação Saudável</div>
+                <div class="about-card">Doenças Cardiovasculares</div>
+                <div class="about-card">Saúde Mental Ruim</div>
+                <div class="about-card">Saúde Mental Boa</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- OVERLAY -->
+    <div id="badgeOverlay" class="overlay hidden" role="dialog" aria-label="Insígnia conquistada">
+        <div class="badge-anim-wrap">
+            <canvas id="overlayBadgeCanvas" width="800" height="800"></canvas>
+        </div>
+        <div class="overlay-title">INSÍGNIA CONQUISTADA!</div>
+        <div class="overlay-actions">
+            <button class="btn btn-green btn-sm" id="downloadOverlayBtn">Baixar PNG</button>
+            <button class="btn btn-ghost btn-sm" id="closeOverlayBtn" style="color:#fff;border-color:rgba(255,255,255,0.4)">Ver Insígnias</button>
+        </div>
+    </div>
+
+    <!-- MODAL RESET -->
+    <div id="resetModal" class="modal-backdrop hidden" role="dialog" aria-label="Confirmar reinício">
+        <div class="modal">
+            <h3>Reiniciar Progresso?</h3>
+            <p>Todo o seu progresso será apagado. Esta ação não pode ser desfeita.</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" id="cancelReset">Cancelar</button>
+                <button class="btn btn-coral" id="confirmReset">Reiniciar</button>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="confettiCanvas"></canvas>
+
+    <script>
+        /* ===== ESTADO ===== */
+        const BADGES = {
+            foodsec: {
+                key: 'foodsec',
+                name: 'Insegurança Alimentar',
+                file: 'insignia-inseguranca-alimentar.png',
+                color: '#E76F51'
+            },
+            nutrition: {
+                key: 'nutrition',
+                name: 'Alimentação Saudável',
+                file: 'insignia-alimentacao-saudavel.png',
+                color: '#2E8B70'
+            },
+            cardio: {
+                key: 'cardio',
+                name: 'Saúde Cardiovascular',
+                file: 'insignia-saude-cardiovascular.png',
+                color: '#E76F51'
+            },
+            mental: {
+                key: 'mental',
+                name: 'Saúde Mental Ruim',
+                file: 'insignia-saude-mental-ruim.png',
+                color: '#6B7280'
+            },
+            mentalgood: {
+                key: 'mentalgood',
+                name: 'Saúde Mental Boa',
+                file: 'insignia-saude-mental-boa.png',
+                color: '#E9C46A'
+            }
+        };
+
+        const GAMES = [{
+            id: 'foodsec',
+            num: '01',
+            title: 'Insegurança Alimentar',
+            theme: 'Acesso à comida',
+            badge: 'foodsec',
+            type: 'quiz'
+        }, {
+            id: 'nutrition',
+            num: '02',
+            title: 'Alimentação Saudável',
+            theme: 'Nutrição e prato equilibrado',
+            badge: 'nutrition',
+            type: 'quiz'
+        }, {
+            id: 'cardio',
+            num: '03',
+            title: 'Doenças Cardiovasculares',
+            theme: 'Coração e circulação',
+            badge: 'cardio',
+            type: 'quiz'
+        }, {
+            id: 'mental',
+            num: '04',
+            title: 'Saúde Mental Ruim',
+            theme: 'Sinais de alerta emocional',
+            badge: 'mental',
+            type: 'quiz'
+        }, {
+            id: 'mentalgood',
+            num: '05',
+            title: 'Saúde Mental Boa',
+            theme: 'Hábitos de equilíbrio',
+            badge: 'mentalgood',
+            type: 'quiz'
+        }];
+
+        let progress = {
+            cardio: false,
+            mental: false,
+            mentalgood: false,
+            nutrition: false,
+            foodsec: false
+        };
+
+        let currentGame = null;
+        let currentQuestions = [];
+        let qIndex = 0;
+        let score = 0;
+        let overlayType = null;
+
+        /* ===== BANCO DE PERGUNTAS (75) ===== */
+        const QUESTIONS = {
+            cardio: [{
+                question: 'Qual órgão é responsável por bombear o sangue para todo o corpo?',
+                options: ['Fígado', 'Coração', 'Pulmão', 'Estômago'],
+                correct: 1,
+                explanation: 'O coração é o órgão central do sistema cardiovascular e bombeia o sangue continuamente.'
+            }, {
+                question: 'O que a pressão arterial mede?',
+                options: ['A temperatura do corpo', 'A força do sangue nas paredes das artérias', 'A quantidade de oxigênio no sangue', 'A frequência respiratória'],
+                correct: 1,
+                explanation: 'A pressão arterial indica a força que o sangue exerce nas paredes dos vasos sanguíneos.'
+            }, {
+                question: 'Qual hábito ajuda a manter a saúde do coração?',
+                options: ['Fumar regularmente', 'Praticar atividade física com regularidade', 'Consumir excesso de sal todos os dias', 'Evitar qualquer tipo de movimento'],
+                correct: 1,
+                explanation: 'A atividade física regular fortalece o coração e melhora a circulação.'
+            }, {
+                question: 'O colesterol elevado pode estar relacionado a:',
+                options: ['Melhora imediata da visão', 'Maior risco de problemas cardiovasculares', 'Aumento da altura', 'Fortalecimento dos ossos'],
+                correct: 1,
+                explanation: 'Níveis elevados de colesterol estão associados a maior risco de doenças do coração e dos vasos.'
+            }, {
+                question: 'O tabagismo afeta o sistema cardiovascular de que forma?',
+                options: ['Não tem qualquer efeito', 'Pode prejudicar vasos sanguíneos e aumentar riscos', 'Melhora a circulação automaticamente', 'Reduz a necessidade de oxigênio'],
+                correct: 1,
+                explanation: 'O tabaco prejudica os vasos e eleva o risco de doenças cardíacas e circulatórias.'
+            }, {
+                question: 'Uma alimentação rica em frutas e vegetais pode contribuir para:',
+                options: ['Aumentar o risco cardiovascular', 'Apoiar a saúde do coração', 'Eliminar a necessidade de sono', 'Substituir o exercício físico'],
+                correct: 1,
+                explanation: 'Frutas e vegetais fornecem nutrientes que apoiam a saúde cardiovascular.'
+            }, {
+                question: 'O acompanhamento regular da pressão arterial é importante porque:',
+                options: ['Não traz benefícios', 'Ajuda a identificar alterações precocemente', 'Substitui qualquer tratamento', 'Só é útil em idosos'],
+                correct: 1,
+                explanation: 'Medir a pressão com regularidade permite detectar mudanças e buscar orientação adequada.'
+            }, {
+                question: 'Qual fator de risco pode ser influenciado por hábitos de vida?',
+                options: ['A idade cronológica', 'O sedentarismo', 'A genética dos avós', 'A cor dos olhos'],
+                correct: 1,
+                explanation: 'O sedentarismo é um fator modificável que impacta a saúde cardiovascular.'
+            }, {
+                question: 'Manter um peso adequado e hábitos saudáveis ajuda a:',
+                options: ['Garantir imunidade total', 'Reduzir riscos associados ao coração', 'Eliminar a necessidade de água', 'Aumentar a velocidade de crescimento'],
+                correct: 1,
+                explanation: 'Hábitos saudáveis contribuem para menor risco de doenças cardiovasculares.'
+            }, {
+                question: 'O excesso de sal na alimentação pode:',
+                options: ['Melhorar o paladar sem efeitos', 'Influenciar negativamente a pressão arterial', 'Fortalecer os ossos automaticamente', 'Reduzir a sede'],
+                correct: 1,
+                explanation: 'O consumo excessivo de sódio está associado a elevação da pressão arterial.'
+            }, {
+                question: 'A circulação sanguínea tem como função principal:',
+                options: ['Produzir energia elétrica', 'Transportar oxigênio e nutrientes pelo corpo', 'Controlar o humor', 'Regular a temperatura apenas na pele'],
+                correct: 1,
+                explanation: 'O sangue leva oxigênio e nutrientes aos tecidos e remove resíduos.'
+            }, {
+                question: 'Evitar o tabaco e o excesso de álcool contribui para:',
+                options: ['Nenhum benefício cardiovascular', 'Proteger a saúde do coração e dos vasos', 'Aumentar a pressão automaticamente', 'Substituir o sono'],
+                correct: 1,
+                explanation: 'Reduzir esses hábitos diminui riscos para o sistema cardiovascular.'
+            }, {
+                question: 'Qual atitude faz parte da prevenção cardiovascular?',
+                options: ['Ignorar check-ups de saúde', 'Manter rotina de atividade física e alimentação equilibrada', 'Consumir apenas alimentos ultraprocessados', 'Evitar qualquer tipo de caminhada'],
+                correct: 1,
+                explanation: 'Prevenção envolve hábitos ativos, alimentação adequada e acompanhamento de saúde.'
+            }, {
+                question: 'O coração de uma pessoa adulta em repouso costuma bater aproximadamente:',
+                options: ['10 vezes por minuto', 'Entre 60 e 100 vezes por minuto', '500 vezes por minuto', '2 vezes por minuto'],
+                correct: 1,
+                explanation: 'A frequência cardíaca de repouso típica em adultos fica entre 60 e 100 batimentos por minuto.'
+            }, {
+                question: 'Buscar orientação de profissionais de saúde quando há preocupação com o coração é:',
+                options: ['Desnecessário em qualquer idade', 'Uma atitude responsável de cuidado', 'Só recomendado para atletas', 'Uma forma de automedicação'],
+                correct: 1,
+                explanation: 'Profissionais de saúde orientam de forma segura e adequada sobre a saúde cardiovascular.'
+            },
+            {
+                question: 'Qual é um sinal de alerta de possível problema cardiovascular?',
+                options: ['Dor no peito e falta de ar', 'Aumento da altura', 'Melhora da visão', 'Fome excessiva'],
+                correct: 0,
+                explanation: 'Dor no peito e falta de ar podem indicar problemas cardíacos e exigem atenção médica.'
+            },
+            {
+                question: 'Manter o peso saudável ajuda a prevenir:',
+                options: ['Doenças cardiovasculares', 'Crescimento ósseo', 'Mudança de cor dos olhos', 'Aumento da memória'],
+                correct: 0,
+                explanation: 'O excesso de peso eleva o risco de hipertensão e doenças do coração.'
+            }],
+            mental: [{
+                question: 'Reconhecer e nomear as próprias emoções pode ajudar a:',
+                options: ['Ignorar completamente o que se sente', 'Lidar melhor com o bem-estar emocional', 'Eliminar a necessidade de descanso', 'Aumentar o isolamento'],
+                correct: 1,
+                explanation: 'Identificar emoções facilita o equilíbrio e a busca de estratégias saudáveis.'
+            }, {
+                question: 'Qual hábito contribui para o bem-estar emocional?',
+                options: ['Dormir muito pouco de forma constante', 'Manter uma rotina de sono regular', 'Evitar qualquer contato social', 'Trabalhar sem pausas o tempo todo'],
+                correct: 1,
+                explanation: 'O sono de qualidade é fundamental para a saúde mental.'
+            }, {
+                question: 'Quando o estresse aumenta, uma atitude positiva é:',
+                options: ['Acumular mais tarefas sem pausa', 'Fazer uma pausa, respirar e organizar prioridades', 'Isolar-se completamente por longos períodos', 'Negar qualquer sentimento'],
+                correct: 1,
+                explanation: 'Pausas e organização ajudam a lidar com o estresse de forma mais equilibrada.'
+            }, {
+                question: 'Conversar com alguém de confiança sobre o que se sente pode:',
+                options: ['Piorar sempre a situação', 'Oferecer apoio e alívio emocional', 'Substituir o sono', 'Eliminar a necessidade de lazer'],
+                correct: 1,
+                explanation: 'O apoio social é um recurso importante para o bem-estar mental.'
+            }, {
+                question: 'Reservar tempo para atividades prazerosas e de autocuidado é:',
+                options: ['Uma perda de tempo', 'Uma prática que fortalece a saúde mental', 'Só útil para crianças', 'Desnecessário na vida adulta'],
+                correct: 1,
+                explanation: 'O autocuidado e o lazer contribuem para o equilíbrio emocional.'
+            }, {
+                question: 'Respeitar os próprios limites de energia e tempo ajuda a:',
+                options: ['Aumentar o esgotamento', 'Prevenir o excesso de pressão sobre si mesmo', 'Eliminar emoções', 'Evitar qualquer conquista'],
+                correct: 1,
+                explanation: 'Conhecer e respeitar limites favorece o bem-estar e reduz o risco de sobrecarga.'
+            }, {
+                question: 'Pedir ajuda a profissionais de saúde mental quando necessário é:',
+                options: ['Sinal de fraqueza', 'Uma atitude de cuidado consigo mesmo', 'Só para situações extremas e raras', 'Desnecessário se houver amigos'],
+                correct: 1,
+                explanation: 'Buscar apoio profissional é um ato de responsabilidade com a própria saúde.'
+            }, {
+                question: 'O equilíbrio entre estudo (ou trabalho) e descanso contribui para:',
+                options: ['Reduzir a produtividade de forma permanente', 'Manter melhor disposição e saúde mental', 'Eliminar a necessidade de sono', 'Aumentar o isolamento social'],
+                correct: 1,
+                explanation: 'Alternar esforço e descanso favorece o desempenho e o bem-estar.'
+            }, {
+                question: 'Combater o estigma em relação à saúde mental significa:',
+                options: ['Silenciar quem precisa de apoio', 'Tratar o tema com respeito e acolhimento', 'Evitar qualquer conversa sobre emoções', 'Julgar quem busca ajuda'],
+                correct: 1,
+                explanation: 'Reduzir o estigma facilita que mais pessoas busquem cuidado quando precisam.'
+            }, {
+                question: 'Uma forma saudável de lidar com emoções intensas é:',
+                options: ['Negar o que se sente', 'Reconhecer a emoção e buscar formas construtivas de expressá-la', 'Isolar-se por dias sem contato', 'Ignorar completamente o corpo'],
+                correct: 1,
+                explanation: 'Acolher e expressar emoções de forma saudável favorece o equilíbrio.'
+            }, {
+                question: 'Manter vínculos sociais de qualidade pode:',
+                options: ['Não influenciar a saúde mental', 'Apoiar o bem-estar emocional', 'Substituir a alimentação', 'Eliminar a necessidade de movimento'],
+                correct: 1,
+                explanation: 'Relações de apoio são fatores protetores para a saúde mental.'
+            }, {
+                question: 'Dormir bem e com regularidade impacta:',
+                options: ['Apenas a aparência física', 'O humor, a atenção e o equilíbrio emocional', 'Somente a digestão', 'Nenhum aspecto da saúde'],
+                correct: 1,
+                explanation: 'O sono influencia humor, concentração e saúde mental de forma ampla.'
+            }, {
+                question: 'Praticar atividades que geram prazer e sentido na vida ajuda a:',
+                options: ['Aumentar o tédio', 'Fortalecer o bem-estar psicológico', 'Reduzir a necessidade de água', 'Evitar qualquer desafio'],
+                correct: 1,
+                explanation: 'Atividades significativas e prazerosas apoiam a saúde mental.'
+            }, {
+                question: 'Quando alguém próximo demonstra sofrimento emocional, uma atitude acolhedora é:',
+                options: ['Minimizar o que a pessoa sente', 'Escutar com respeito e incentivar a busca de apoio se necessário', 'Exigir que a pessoa “supere logo”', 'Evitar qualquer conversa'],
+                correct: 1,
+                explanation: 'Escuta e acolhimento, sem julgamento, são formas importantes de apoio.'
+            }, {
+                question: 'Cuidar da saúde mental faz parte de:',
+                options: ['Apenas situações de crise', 'Uma abordagem integral de saúde e bem-estar', 'Um tema exclusivo da infância', 'Algo opcional e sem importância'],
+                correct: 1,
+                explanation: 'A saúde mental é componente essencial da saúde em todas as idades.'
+            },
+            {
+                question: 'A falta de saúde mental pode se manifestar como:',
+                options: ['Ansiedade intensa e isolamento', 'Melhora do sono', 'Aumento de energia constante', 'Melhora das relações'],
+                correct: 0,
+                explanation: 'Sintomas como ansiedade e isolamento podem indicar necessidade de apoio em saúde mental.'
+            },
+            {
+                question: 'Ignorar problemas emocionais por muito tempo pode:',
+                options: ['Piorar a qualidade de vida', 'Resolver tudo sozinho', 'Melhorar a produtividade', 'Eliminar o estresse'],
+                correct: 0,
+                explanation: 'Adiar o cuidado com a saúde mental tende a agravar o sofrimento emocional.'
+            }],
+            mentalgood: [{
+                question: 'A atividade física regular pode contribuir para:',
+                options: ['Apenas a aparência externa', 'Melhora do bem-estar físico e mental', 'Eliminação da necessidade de sono', 'Aumento do risco de doenças'],
+                correct: 1,
+                explanation: 'O movimento regular apoia a saúde do corpo e da mente de diversas formas.'
+            }, {
+                question: 'Caminhar com regularidade é considerado:',
+                options: ['Um exercício inútil', 'Uma forma acessível de atividade física', 'Apenas para atletas profissionais', 'Prejudicial à articulação'],
+                correct: 1,
+                explanation: 'A caminhada é uma atividade simples, segura e benéfica para muitas pessoas.'
+            }, {
+                question: 'Alongar o corpo antes ou depois de se movimentar pode ajudar a:',
+                options: ['Reduzir a flexibilidade', 'Preparar músculos e favorecer o conforto', 'Eliminar a sede', 'Substituir a hidratação'],
+                correct: 1,
+                explanation: 'O alongamento contribui para mobilidade e conforto durante a atividade.'
+            }, {
+                question: 'Manter-se hidratado durante a atividade física é importante porque:',
+                options: ['Não tem qualquer efeito', 'Ajuda o corpo a funcionar adequadamente', 'Aumenta o risco de lesões', 'Substitui a alimentação'],
+                correct: 1,
+                explanation: 'A água é essencial para a regulação do organismo durante o movimento.'
+            }, {
+                question: 'Incluir movimento na rotina diária, como subir escadas, pode:',
+                options: ['Não trazer benefícios', 'Contribuir para um estilo de vida mais ativo', 'Causar necessariamente lesões', 'Eliminar a necessidade de descanso'],
+                correct: 1,
+                explanation: 'Pequenas atitudes ativas ao longo do dia somam benefícios à saúde.'
+            }, {
+                question: 'O descanso entre períodos de atividade física serve para:',
+                options: ['Reduzir o desempenho permanentemente', 'Permitir recuperação e equilíbrio do corpo', 'Eliminar a motivação', 'Aumentar o sedentarismo obrigatório'],
+                correct: 1,
+                explanation: 'O descanso é parte importante de uma rotina ativa e saudável.'
+            }, {
+                question: 'Praticar atividade física com segurança significa, entre outras coisas:',
+                options: ['Ignorar sinais do corpo', 'Respeitar limites e buscar orientação quando necessário', 'Forçar o corpo além de qualquer limite', 'Evitar qualquer tipo de movimento'],
+                correct: 1,
+                explanation: 'Segurança envolve escuta do corpo e práticas adequadas a cada pessoa.'
+            }, {
+                question: 'A regularidade na atividade física tende a ser mais benéfica do que:',
+                options: ['Sessões ocasionais muito intensas e isoladas', 'Nenhuma atividade', 'Ambas as anteriores', 'Apenas o sono'],
+                correct: 2,
+                explanation: 'A constância de práticas moderadas costuma trazer mais benefícios sustentáveis.'
+            }, {
+                question: 'O movimento pode fazer parte da rotina de muitas formas, como:',
+                options: ['Apenas esportes competitivos', 'Dança, caminhada, brincadeiras e exercícios leves', 'Somente musculação intensa', 'Apenas corridas de longa distância'],
+                correct: 1,
+                explanation: 'Há muitas maneiras de se movimentar de forma prazerosa e saudável.'
+            }, {
+                question: 'Evitar longos períodos sentado sem pausas pode:',
+                options: ['Piorar a circulação e o conforto', 'Ajudar a manter o corpo mais ativo ao longo do dia', 'Não ter relação com saúde', 'Eliminar a necessidade de água'],
+                correct: 1,
+                explanation: 'Pausas para se movimentar reduzem os efeitos do sedentarismo prolongado.'
+            }, {
+                question: 'Uma mensagem adequada sobre exercício é:',
+                options: ['Só vale se gerar mudança corporal visível', 'O movimento pode fazer parte de uma rotina saudável de muitas formas', 'Deve ser extremo para ter valor', 'É desnecessário em qualquer idade'],
+                correct: 1,
+                explanation: 'O foco deve estar nos benefícios amplos do movimento, não em aparência.'
+            }, {
+                question: 'Crianças e adolescentes se beneficiam de atividade física porque ela pode:',
+                options: ['Apenas cansar', 'Apoiar desenvolvimento, humor e saúde geral', 'Substituir a escola', 'Eliminar a necessidade de brincadeiras'],
+                correct: 1,
+                explanation: 'O movimento contribui para o desenvolvimento e o bem-estar em todas as idades.'
+            }, {
+                question: 'Escolher atividades que sejam prazerosas aumenta a chance de:',
+                options: ['Abandonar o movimento', 'Manter a prática com mais regularidade', 'Sofreír lesões automaticamente', 'Reduzir a hidratação'],
+                correct: 1,
+                explanation: 'O prazer facilita a aderência a hábitos ativos ao longo do tempo.'
+            }, {
+                question: 'Combinar atividade física com sono e alimentação adequados forma:',
+                options: ['Uma rotina desequilibrada', 'Uma base importante para a saúde integral', 'Um excesso desnecessário', 'Algo apenas para atletas'],
+                correct: 1,
+                explanation: 'Movimento, sono e alimentação se complementam no cuidado com a saúde.'
+            }, {
+                question: 'Antes de iniciar uma nova atividade intensa, é recomendável:',
+                options: ['Ignorar qualquer orientação', 'Buscar informações e, se necessário, orientação profissional', 'Começar no máximo da intensidade', 'Evitar qualquer aquecimento'],
+                correct: 1,
+                explanation: 'Informação e orientação adequada aumentam a segurança e o benefício da prática.'
+            },
+            {
+                question: 'Uma prática que favorece a saúde mental boa é:',
+                options: ['Conversar com pessoas de confiança', 'Evitar qualquer contato social', 'Dormir apenas 3 horas por noite', 'Ignorar emoções'],
+                correct: 0,
+                explanation: 'Relações de apoio e diálogo ajudam a manter o equilíbrio emocional.'
+            },
+            {
+                question: 'Cuidar da saúde mental inclui:',
+                options: ['Buscar ajuda profissional quando necessário', 'Esconder todos os sentimentos', 'Trabalhar sem pausas', 'Evitar atividades prazerosas'],
+                correct: 0,
+                explanation: 'Reconhecer limites e buscar apoio é parte do cuidado com a saúde mental.'
+            }],
+            nutrition: [{
+                question: 'Uma alimentação equilibrada valoriza principalmente:',
+                options: ['Apenas um tipo de alimento', 'Variedade e diversidade de alimentos', 'Restrição extrema de todos os grupos', 'Consumo exclusivo de ultraprocessados'],
+                correct: 1,
+                explanation: 'Variedade de alimentos contribui para o aporte de diferentes nutrientes.'
+            }, {
+                question: 'Frutas e hortaliças (verduras e legumes) são importantes porque:',
+                options: ['Não oferecem nutrientes', 'Fornecem vitaminas, minerais e fibras', 'Devem ser evitadas completamente', 'Substituem a água'],
+                correct: 1,
+                explanation: 'Esses alimentos são fontes de nutrientes essenciais e fibras.'
+            }, {
+                question: 'Incluir leguminosas (como feijão e lentilha) na alimentação ajuda a:',
+                options: ['Reduzir a variedade do prato', 'Aumentar a diversidade e o aporte de nutrientes', 'Eliminar a necessidade de água', 'Substituir o sono'],
+                correct: 1,
+                explanation: 'Leguminosas são alimentos nutritivos e fazem parte de refeições equilibradas.'
+            }, {
+                question: 'Beber água ao longo do dia é importante para:',
+                options: ['Nenhuma função no corpo', 'Manter o organismo hidratado e funcionando bem', 'Aumentar o risco de doenças', 'Substituir todas as refeições'],
+                correct: 1,
+                explanation: 'A hidratação adequada é fundamental para diversas funções do corpo.'
+            }, {
+                question: 'Alimentos in natura ou minimamente processados tendem a ser:',
+                options: ['Sempre prejudiciais', 'Boas bases para uma alimentação saudável', 'Iguais a qualquer ultraprocessado', 'Desnecessários'],
+                correct: 1,
+                explanation: 'Priorizar alimentos frescos e pouco processados favorece a qualidade da dieta.'
+            }, {
+                question: 'Uma refeição variada pode incluir, por exemplo:',
+                options: ['Apenas um alimento repetido', 'Cereais, leguminosas, vegetais e uma fonte de proteína', 'Somente doces', 'Apenas bebidas açucaradas'],
+                correct: 1,
+                explanation: 'Combinar diferentes grupos alimentares enriquece a refeição.'
+            }, {
+                question: 'O excesso de alimentos ultraprocessados na rotina pode:',
+                options: ['Ser sempre a melhor opção', 'Desequilibrar a qualidade da alimentação', 'Garantir todos os nutrientes automaticamente', 'Eliminar a sede'],
+                correct: 1,
+                explanation: 'O consumo excessivo de ultraprocessados está associado a padrões alimentares menos saudáveis.'
+            }, {
+                question: 'Comer com atenção e em ambientes tranquilos pode contribuir para:',
+                options: ['Piorar a digestão', 'Uma relação mais consciente com a comida', 'Aumentar o desperdício obrigatório', 'Eliminar a necessidade de nutrientes'],
+                correct: 1,
+                explanation: 'Atenção plena às refeições favorece hábitos alimentares mais equilibrados.'
+            }, {
+                question: 'Cereais como arroz, milho e aveia fazem parte de uma alimentação:',
+                options: ['Apenas de atletas', 'Diversificada e com fontes de energia e nutrientes', 'Que deve ser evitada totalmente', 'Exclusiva de crianças'],
+                correct: 1,
+                explanation: 'Cereais são bases comuns de refeições e fornecem energia e outros nutrientes.'
+            }, {
+                question: 'Incluir diferentes cores de vegetais no prato ajuda a:',
+                options: ['Reduzir a variedade de nutrientes', 'Ampliar a diversidade de vitaminas e compostos benéficos', 'Eliminar o sabor', 'Substituir a hidratação'],
+                correct: 1,
+                explanation: 'Cores variadas indicam diferentes nutrientes e compostos bioativos.'
+            }, {
+                question: 'Uma mensagem adequada sobre alimentação é:',
+                options: ['Existem alimentos “proibidos” em qualquer quantidade', 'Variedade, equilíbrio e hábitos regulares são importantes', 'Só conta a quantidade de calorias', 'O corpo deve ser comparado constantemente'],
+                correct: 1,
+                explanation: 'O foco saudável está em hábitos, variedade e equilíbrio, não em restrição extrema.'
+            }, {
+                question: 'Planejar refeições com antecedência pode ajudar a:',
+                options: ['Aumentar o desperdício', 'Facilitar escolhas mais variadas e práticas', 'Eliminar a necessidade de frutas', 'Reduzir a hidratação'],
+                correct: 1,
+                explanation: 'O planejamento favorece escolhas alimentares mais conscientes e diversas.'
+            }, {
+                question: 'O café da manhã, quando possível, pode contribuir para:',
+                options: ['Nenhum benefício', 'Distribuir melhor a energia ao longo do dia', 'Substituir o jantar automaticamente', 'Eliminar a necessidade de água'],
+                correct: 1,
+                explanation: 'Uma primeira refeição adequada ajuda a distribuir a ingestão de nutrientes e energia.'
+            }, {
+                question: 'Envolver crianças no preparo de alimentos pode:',
+                options: ['Afastá-las da comida', 'Estimular curiosidade e hábitos alimentares positivos', 'Ser sempre perigoso e inviável', 'Substituir a educação escolar'],
+                correct: 1,
+                explanation: 'Participar do preparo aproxima as crianças dos alimentos e de práticas saudáveis.'
+            }, {
+                question: 'A alimentação saudável é um processo que envolve:',
+                options: ['Regras rígidas e proibições absolutas', 'Hábitos, cultura, acesso e escolhas ao longo do tempo', 'Apenas dietas da moda', 'Comparação constante de corpos'],
+                correct: 1,
+                explanation: 'Alimentação saudável é dinâmica e considera contexto, variedade e sustentabilidade dos hábitos.'
+            },
+            {
+                question: 'Uma alimentação saudável prioriza:',
+                options: ['Frutas, vegetais e grãos integrais', 'Apenas alimentos ultraprocessados', 'Só refrigerantes e doces', 'Pular todas as refeições'],
+                correct: 0,
+                explanation: 'Alimentos in natura e minimamente processados formam a base de uma dieta saudável.'
+            },
+            {
+                question: 'Beber água regularmente contribui para:',
+                options: ['Boa hidratação e funcionamento do corpo', 'Aumento do colesterol', 'Piora da digestão', 'Redução da energia'],
+                correct: 0,
+                explanation: 'A hidratação adequada é essencial para a saúde geral e o metabolismo.'
+            }],
+            foodsec: [{
+                question: 'Insegurança alimentar significa, em essência:',
+                options: ['Falta de apetite individual', 'Dificuldade de acesso regular a alimentos adequados e em quantidade suficiente', 'Preferência por determinados sabores', 'Excesso de opções nos mercados'],
+                correct: 1,
+                explanation: 'Insegurança alimentar refere-se à falta de acesso estável a alimentos suficientes e adequados.'
+            }, {
+                question: 'O acesso à alimentação adequada é considerado:',
+                options: ['Um privilégio sem relação com direitos', 'Um direito humano fundamental', 'Algo opcional para a sociedade', 'Responsabilidade apenas individual'],
+                correct: 1,
+                explanation: 'A alimentação adequada é reconhecida como direito de todas as pessoas.'
+            }, {
+                question: 'Fatores como pobreza e desigualdade social podem:',
+                options: ['Não influenciar o acesso aos alimentos', 'Dificultar o acesso regular a uma alimentação adequada', 'Garantir segurança alimentar automaticamente', 'Eliminar a necessidade de políticas públicas'],
+                correct: 1,
+                explanation: 'Condições socioeconômicas influenciam fortemente o acesso aos alimentos.'
+            }, {
+                question: 'O desperdício de alimentos ao longo da cadeia produtiva:',
+                options: ['Não tem relação com a segurança alimentar', 'Pode agravar a dificuldade de acesso a alimentos para muitas pessoas', 'Melhora a distribuição automaticamente', 'É inevitável e sem soluções'],
+                correct: 1,
+                explanation: 'Reduzir o desperdício é uma das estratégias para melhorar a disponibilidade de alimentos.'
+            }, {
+                question: 'Programas sociais e políticas públicas de alimentação podem:',
+                options: ['Não ter qualquer impacto', 'Apoiar o acesso de populações em situação de vulnerabilidade', 'Substituir a produção de alimentos', 'Eliminar a agricultura'],
+                correct: 1,
+                explanation: 'Políticas e programas são instrumentos importantes para promover segurança alimentar.'
+            }, {
+                question: 'A solidariedade e ações comunitárias de distribuição de alimentos:',
+                options: ['São sempre desnecessárias', 'Podem complementar esforços de acesso à alimentação', 'Substituem qualquer política pública', 'Agravam a desigualdade'],
+                correct: 1,
+                explanation: 'Ações solidárias e comunitárias ajudam, mas não substituem políticas estruturantes.'
+            }, {
+                question: 'A segurança alimentar envolve não apenas quantidade, mas também:',
+                options: ['Apenas o preço dos alimentos', 'Qualidade, variedade e adequação cultural dos alimentos', 'Somente a aparência dos produtos', 'A exclusão de alimentos frescos'],
+                correct: 1,
+                explanation: 'Segurança alimentar inclui acesso a alimentos suficientes, seguros e culturalmente adequados.'
+            }, {
+                question: 'Culpar indivíduos pela insegurança alimentar ignora que:',
+                options: ['Não há fatores sociais envolvidos', 'Existem causas econômicas, sociais e estruturais', 'Todos têm as mesmas oportunidades', 'O acesso é sempre igual'],
+                correct: 1,
+                explanation: 'A insegurança alimentar está ligada a desigualdades e não apenas a escolhas individuais.'
+            }, {
+                question: 'A distribuição desigual de alimentos no mundo e nos países:',
+                options: ['Não existe', 'É um dos desafios para garantir alimentação para todos', 'Garante segurança a todas as pessoas', 'É resolvida apenas pelo mercado'],
+                correct: 1,
+                explanation: 'Desigualdades na distribuição dificultam o acesso de muitas populações.'
+            }, {
+                question: 'Educação alimentar e nutricional em contextos de vulnerabilidade pode:',
+                options: ['Resolver sozinha a insegurança alimentar', 'Ser um complemento importante, mas não substitui o acesso aos alimentos', 'Eliminar a necessidade de renda', 'Aumentar o desperdício'],
+                correct: 1,
+                explanation: 'Educação é valiosa, porém o acesso efetivo aos alimentos é condição fundamental.'
+            }, {
+                question: 'O conceito de soberania alimentar enfatiza, entre outros aspectos:',
+                options: ['A dependência total de importações', 'O direito dos povos de definir seus sistemas alimentares', 'A exclusão de alimentos locais', 'A centralização extrema da produção'],
+                correct: 1,
+                explanation: 'Soberania alimentar valoriza a autonomia das comunidades sobre sua alimentação.'
+            }, {
+                question: 'Agricultores familiares e produção local podem contribuir para:',
+                options: ['Aumentar a insegurança alimentar', 'Fortalecer o acesso a alimentos e a diversidade da produção', 'Eliminar a necessidade de mercados', 'Reduzir a variedade de cultivos'],
+                correct: 1,
+                explanation: 'A agricultura familiar e local é importante para a disponibilidade e diversidade alimentar.'
+            }, {
+                question: 'Em situações de crise (econômica, climática etc.), a insegurança alimentar tende a:',
+                options: ['Desaparecer automaticamente', 'Aumentar, exigindo respostas coletivas e políticas', 'Não afetar ninguém', 'Ser resolvida apenas por doações individuais'],
+                correct: 1,
+                explanation: 'Crises ampliam vulnerabilidades e demandam ações estruturadas de proteção social.'
+            }, {
+                question: 'Garantir alimentação para todos exige, entre outros esforços:',
+                options: ['Apenas esforço individual isolado', 'Políticas públicas, redução de desigualdades e solidariedade', 'Eliminação de qualquer produção local', 'Ignorar a pobreza'],
+                correct: 1,
+                explanation: 'É necessário combinar políticas, justiça social e ações coletivas.'
+            }, {
+                question: 'Tratar a alimentação como direito significa reconhecer que:',
+                options: ['Só quem pode pagar deve ter acesso', 'Todas as pessoas devem ter acesso a alimentos adequados', 'A fome é inevitável e sem soluções', 'Não há responsabilidade coletiva'],
+                correct: 1,
+                explanation: 'O direito à alimentação adequada é universal e exige compromisso social e político.'
+            },
+            {
+                question: 'Insegurança alimentar significa:',
+                options: ['Falta de acesso regular a alimentos suficientes e nutritivos', 'Excesso de comida em casa', 'Preferência por fast-food', 'Dieta rica em frutas'],
+                correct: 0,
+                explanation: 'É a ausência de acesso estável a alimentos adequados em quantidade e qualidade.'
+            },
+            {
+                question: 'Uma ação que combate a insegurança alimentar é:',
+                options: ['Apoiar bancos de alimentos e hortas comunitárias', 'Desperdiçar comida', 'Comprar só produtos importados', 'Evitar doações'],
+                correct: 0,
+                explanation: 'Iniciativas locais de produção e distribuição ajudam a garantir comida para todos.'
+            }]
+        };
+
+        /* ===== LOCAL STORAGE ===== */
+        function loadProgress() {
+            try {
+                const s = localStorage.getItem('passaporteSaudeV2');
+                if (s) {
+                    const p = JSON.parse(s);
+                    Object.keys(progress).forEach(k => {
+                        if (p[k] === true) progress[k] = true;
+                    });
+                }
+            } catch (e) {}
+            updateAllUI();
+        }
+
+        function saveProgress() {
+            localStorage.setItem('passaporteSaudeV2', JSON.stringify(progress));
+        }
+
+        function resetProgress() {
+            Object.keys(progress).forEach(k => progress[k] = false);
+            saveProgress();
+            updateAllUI();
+            showScreen('home');
+            document.getElementById('resetModal').classList.add('hidden');
+        }
+
+        function countUnlocked() {
+            return Object.values(progress).filter(Boolean).length;
+        }
+
+        /* ===== NAVEGAÇÃO ===== */
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const el = document.getElementById(id);
+            if (el) el.classList.add('active');
+            document.getElementById('navList').classList.remove('open');
+            window.scrollTo(0, 0);
+            if (id === 'gallery') renderGallery();
+            if (id === 'games') renderGamesMenu();
+            if (id === 'home') drawHomePassport();
+            if (id === 'complete') {
+                drawFullPassport();
+                drawSpecialBadge(document.getElementById('specialBadgeCanvas'), true);
+            }
+        }
+
+        /* ===== SHUFFLE (Fisher-Yates) ===== */
+        function shuffle(arr) {
+            const a = arr.slice();
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        /* ===== QUIZ ===== */
+        function startGame(gameId) {
+            currentGame = gameId;
+            const pool = QUESTIONS[gameId];
+            currentQuestions = shuffle(pool).slice(0, 5);
+            qIndex = 0;
+            score = 0;
+            document.getElementById('resultArea').classList.add('hidden');
+            document.getElementById('questionArea').classList.remove('hidden');
+            const g = GAMES.find(x => x.id === gameId);
+            document.getElementById('quizTitle').textContent = g ? g.title : '';
+            showScreen('quiz');
+            // intro único por jogo
+            const intros = {
+                foodsec: 'Missão: entenda o acesso à comida e a solidariedade.',
+                nutrition: 'Missão: monte escolhas saudáveis no dia a dia.',
+                cardio: 'Missão: proteja o coração com hábitos certos.',
+                mental: 'Missão: reconheça sinais de alerta emocional.',
+                mentalgood: 'Missão: pratique o equilíbrio e o autocuidado.'
+            };
+            const area = document.getElementById('questionArea');
+            area.innerHTML = `<div class="question-card" style="text-align:center;padding:2rem"><p style="color:var(--muted);margin-bottom:1.2rem">${intros[gameId] || ''}</p><button class="btn btn-green" id="startQ">Começar</button></div>`;
+            document.getElementById('startQ').onclick = () => showQuestion();
+        }
+
+        function showQuestion() {
+            const q = currentQuestions[qIndex];
+            document.getElementById('qNum').textContent = qIndex + 1;
+            document.getElementById('quizBarFill').style.width = ((qIndex) / 5 * 100) + '%';
+            const area = document.getElementById('questionArea');
+            area.innerHTML = '';
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.innerHTML = `<div class="question-text">${q.question}</div><div class="options-list" id="opts"></div><div id="fb" class="feedback-box hidden"></div>`;
+            area.appendChild(card);
+            const opts = document.getElementById('opts');
+            q.options.forEach((opt, i) => {
+                const b = document.createElement('button');
+                b.className = 'option-btn';
+                b.textContent = opt;
+                b.setAttribute('aria-label', 'Alternativa ' + (i + 1));
+                b.onclick = () => answerQuestion(i);
+                opts.appendChild(b);
+            });
+        }
+
+        function answerQuestion(idx) {
+            const q = currentQuestions[qIndex];
+            const btns = document.querySelectorAll('#opts .option-btn');
+            btns.forEach(b => b.disabled = true);
+            const fb = document.getElementById('fb');
+            if (idx === q.correct) {
+                score++;
+                btns[idx].classList.add('correct');
+                fb.className = 'feedback-box ok';
+                fb.textContent = '✓ Correto! ' + q.explanation;
+            } else {
+                btns[idx].classList.add('wrong');
+                btns[q.correct].classList.add('correct');
+                fb.className = 'feedback-box bad';
+                fb.textContent = '✗ Não é a melhor escolha. ' + q.explanation;
+            }
+            fb.classList.remove('hidden');
+            document.getElementById('quizBarFill').style.width = ((qIndex + 1) / 5 * 100) + '%';
+            setTimeout(() => {
+                qIndex++;
+                if (qIndex < 5) showQuestion();
+                else finishGame();
+            }, 2000);
+        }
+
+        function finishGame() {
+            document.getElementById('questionArea').classList.add('hidden');
+            const res = document.getElementById('resultArea');
+            res.classList.remove('hidden');
+            const won = score >= 3;
+            const badgeKey = currentGame;
+            let html = `<div class="result-card">
+    <h2>Desafio Concluído</h2>
+    <div class="result-score">${score} / 5</div>`;
+            if (won) {
+                const msgs = {
+                    foodsec: 'Você entendeu a importância do acesso à comida. Insígnia conquistada!',
+                    nutrition: 'Escolhas saudáveis no prato. Insígnia conquistada!',
+                    cardio: 'Coração protegido com bons hábitos. Insígnia conquistada!',
+                    mental: 'Você reconheceu os sinais de alerta. Insígnia conquistada!',
+                    mentalgood: 'Equilíbrio e autocuidado em prática. Insígnia conquistada!'
+                };
+                html += `<p class="result-msg">${msgs[badgeKey] || 'Parabéns! Insígnia conquistada.'}</p>
+      <div class="result-actions">
+        <button class="btn btn-green" id="claimBadgeBtn">Receber Insígnia</button>
+        <button class="btn btn-ghost" data-screen="games">← Jogos</button>
+      </div>`;
+            } else {
+                html += `<p class="result-msg">Precisa de pelo menos 3 acertos. Tente de novo!</p>
+      <div class="result-actions">
+        <button class="btn btn-primary" id="retryBtn">Tentar Novamente</button>
+        <button class="btn btn-ghost" data-screen="games">← Jogos</button>
+      </div>`;
+            }
+            html += '</div>';
+            res.innerHTML = html;
+            if (won) {
+                document.getElementById('claimBadgeBtn').onclick = () => {
+                    unlockBadge(badgeKey);
+                };
+            } else {
+                document.getElementById('retryBtn').onclick = () => startGame(currentGame);
+            }
+        }
+
+        function unlockBadge(type) {
+            if (!progress[type]) {
+                progress[type] = true;
+                saveProgress();
+            }
+            updateAllUI();
+            showBadgeReward(type);
+            if (countUnlocked() === 5) {
+                setTimeout(() => {
+                    showConfetti();
+                    setTimeout(() => showScreen('complete'), 1800);
+                }, 2500);
+            }
+        }
+
+        /* ===== INSÍGNIAS CANVAS ===== */
+        function setupHiDPI(canvas, cssW, cssH) {
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = cssW * dpr;
+            canvas.height = cssH * dpr;
+            canvas.style.width = cssW + 'px';
+            canvas.style.height = cssH + 'px';
+            const ctx = canvas.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            return ctx;
+        }
+
+        function drawBadge(canvas, type, unlocked) {
+            const size = 400;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = size * dpr;
+            canvas.height = size * dpr;
+            const ctx = canvas.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.clearRect(0, 0, size, size);
+
+            if (type === 'cardio') drawCardiovascularBadge(ctx, size, unlocked);
+            else if (type === 'mental') drawMentalBadge(ctx, size, unlocked);
+            else if (type === 'mentalgood') drawExerciseBadge(ctx, size, unlocked);
+            else if (type === 'nutrition') drawNutritionBadge(ctx, size, unlocked);
+            else if (type === 'foodsec') drawFoodSecurityBadge(ctx, size, unlocked);
+            else if (type === 'special') drawSpecialBadgeInternal(ctx, size, unlocked);
+        }
+
+        function drawCardiovascularBadge(ctx, size, unlocked) {
+            const cx = size / 2,
+                cy = size / 2,
+                r = size * 0.42;
+            const col = unlocked ? '#E76F51' : '#9CA3AF';
+            const col2 = unlocked ? '#C45A3E' : '#6B7280';
+            const bg = unlocked ? '#FFF5F2' : '#F3F4F6';
+
+            // outer glow
+            if (unlocked) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r + 8, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(231,111,81,0.15)';
+                ctx.fill();
+            }
+
+            // main circle
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = bg;
+            ctx.fill();
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 10;
+            ctx.stroke();
+
+            // double inner ring
+            ctx.beginPath();
+            ctx.arc(cx, cy, r - 16, 0, Math.PI * 2);
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // decorative arcs (circulation)
+            for (let i = 0; i < 3; i++) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r - 28 - i * 10, -0.8 + i * 0.3, 0.8 + i * 0.2);
+                ctx.strokeStyle = unlocked ? `rgba(231,111,81,${0.35 - i * 0.08})` : 'rgba(156,163,175,0.3)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            // heart shape
+            ctx.save();
+            ctx.translate(cx, cy - 18);
+            ctx.scale(1.15, 1.15);
+            ctx.beginPath();
+            ctx.moveTo(0, 12);
+            ctx.bezierCurveTo(-28, -10, -28, -32, 0, -22);
+            ctx.bezierCurveTo(28, -32, 28, -10, 0, 12);
+            ctx.closePath();
+            ctx.fillStyle = col;
+            ctx.fill();
+            if (unlocked) {
+                ctx.strokeStyle = col2;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                // highlight
+                ctx.beginPath();
+                ctx.arc(-8, -12, 5, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.35)';
+                ctx.fill();
+            }
+            ctx.restore();
+
+            // text
+            ctx.fillStyle = unlocked ? '#17212B' : '#9CA3AF';
+            ctx.font = 'bold 18px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('SAÚDE', cx, cy + 55);
+            ctx.font = 'bold 15px Segoe UI, sans-serif';
+            ctx.fillText('CARDIOVASCULAR', cx, cy + 76);
+
+            // small dots decoration
+            for (let i = 0; i < 8; i++) {
+                const a = (i / 8) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.arc(cx + Math.cos(a) * (r - 6), cy + Math.sin(a) * (r - 6), 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = col;
+                ctx.fill();
+            }
+
+            if (!unlocked) drawLock(ctx, cx, cy + 100, 18);
+        }
+
+        function drawMentalBadge(ctx, size, unlocked) {
+            const cx = size / 2, cy = size / 2, r = size * 0.42;
+            const col = unlocked ? '#5C6570' : '#9CA3AF';
+            const bg = unlocked ? '#F0F1F3' : '#F3F4F6';
+
+            if (unlocked) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r + 8, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(92,101,112,0.15)';
+                ctx.fill();
+            }
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = bg;
+            ctx.fill();
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 10;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r - 16, 0, Math.PI * 2);
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // cloudy brain (alerta)
+            ctx.save();
+            ctx.translate(cx, cy - 20);
+            ctx.fillStyle = col;
+            // left lobe
+            ctx.beginPath();
+            ctx.ellipse(-14, 0, 22, 26, -0.15, 0, Math.PI * 2);
+            ctx.fill();
+            // right lobe
+            ctx.beginPath();
+            ctx.ellipse(14, 0, 22, 26, 0.15, 0, Math.PI * 2);
+            ctx.fill();
+            // storm cloud over
+            ctx.fillStyle = unlocked ? '#4B5563' : '#9CA3AF';
+            ctx.beginPath();
+            ctx.arc(-10, -28, 12, 0, Math.PI * 2);
+            ctx.arc(5, -32, 14, 0, Math.PI * 2);
+            ctx.arc(18, -26, 10, 0, Math.PI * 2);
+            ctx.fill();
+            // rain drops
+            if (unlocked) {
+                ctx.strokeStyle = '#6B7280';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(-8, -12); ctx.lineTo(-10, 0);
+                ctx.moveTo(4, -14); ctx.lineTo(2, 2);
+                ctx.moveTo(16, -10); ctx.lineTo(14, 4);
+                ctx.stroke();
+            }
+            ctx.restore();
+
+            ctx.fillStyle = unlocked ? '#1A2332' : '#9CA3AF';
+            ctx.font = 'bold 16px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('SAÚDE MENTAL', cx, cy + 58);
+            ctx.font = 'bold 15px Segoe UI, sans-serif';
+            ctx.fillText('RUIM', cx, cy + 78);
+
+            for (let i = 0; i < 6; i++) {
+                const a = (i / 6) * Math.PI * 2 + 0.3;
+                ctx.beginPath();
+                ctx.arc(cx + Math.cos(a) * (r - 8), cy + Math.sin(a) * (r - 8), 3, 0, Math.PI * 2);
+                ctx.fillStyle = col;
+                ctx.fill();
+            }
+
+            if (!unlocked) drawLock(ctx, cx, cy + 105, 18);
+        }
+
+        function drawExerciseBadge(ctx, size, unlocked) {
+            const cx = size / 2, cy = size / 2, r = size * 0.42;
+            const col = unlocked ? '#D4A017' : '#9CA3AF';
+            const col2 = unlocked ? '#E9C46A' : '#D1D5DB';
+            const bg = unlocked ? '#FFFBF0' : '#F3F4F6';
+
+            if (unlocked) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r + 8, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(233,196,106,0.25)';
+                ctx.fill();
+            }
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = bg;
+            ctx.fill();
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 10;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r - 16, 0, Math.PI * 2);
+            ctx.strokeStyle = col2;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // sun + smile face (saúde mental boa)
+            ctx.save();
+            ctx.translate(cx, cy - 18);
+            // sun rays
+            if (unlocked) {
+                ctx.strokeStyle = col;
+                ctx.lineWidth = 3;
+                for (let i = 0; i < 8; i++) {
+                    const a = (i / 8) * Math.PI * 2;
+                    ctx.beginPath();
+                    ctx.moveTo(Math.cos(a) * 28, Math.sin(a) * 28);
+                    ctx.lineTo(Math.cos(a) * 38, Math.sin(a) * 38);
+                    ctx.stroke();
+                }
+            }
+            // face circle
+            ctx.beginPath();
+            ctx.arc(0, 0, 26, 0, Math.PI * 2);
+            ctx.fillStyle = col;
+            ctx.fill();
+            // eyes
+            ctx.fillStyle = unlocked ? '#FFFBF0' : '#E5E7EB';
+            ctx.beginPath();
+            ctx.arc(-9, -6, 4, 0, Math.PI * 2);
+            ctx.arc(9, -6, 4, 0, Math.PI * 2);
+            ctx.fill();
+            // smile
+            ctx.strokeStyle = unlocked ? '#FFFBF0' : '#E5E7EB';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(0, 4, 12, 0.2, Math.PI - 0.2);
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.fillStyle = unlocked ? '#1A2332' : '#9CA3AF';
+            ctx.font = 'bold 15px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('SAÚDE MENTAL', cx, cy + 58);
+            ctx.font = 'bold 15px Segoe UI, sans-serif';
+            ctx.fillText('BOA', cx, cy + 78);
+
+            for (let i = 0; i < 10; i++) {
+                const a = (i / 10) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.arc(cx + Math.cos(a) * (r - 7), cy + Math.sin(a) * (r - 7), 2, 0, Math.PI * 2);
+                ctx.fillStyle = col;
+                ctx.fill();
+            }
+
+            if (!unlocked) drawLock(ctx, cx, cy + 105, 18);
+        }
+
+        function drawNutritionBadge(ctx, size, unlocked) {
+            const cx = size / 2,
+                cy = size / 2,
+                r = size * 0.42;
+            const col = unlocked ? '#2E8B70' : '#9CA3AF';
+            const bg = unlocked ? '#F0FAF6' : '#F3F4F6';
+
+            if (unlocked) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r + 8, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(46,139,112,0.12)';
+                ctx.fill();
+            }
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = bg;
+            ctx.fill();
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 10;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r - 16, 0, Math.PI * 2);
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // plate
+            ctx.beginPath();
+            ctx.arc(cx, cy - 18, 48, 0, Math.PI * 2);
+            ctx.fillStyle = unlocked ? '#FFFFFF' : '#E5E7EB';
+            ctx.fill();
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // inner plate ring
+            ctx.beginPath();
+            ctx.arc(cx, cy - 18, 40, 0, Math.PI * 2);
+            ctx.strokeStyle = unlocked ? 'rgba(46,139,112,0.3)' : 'rgba(156,163,175,0.3)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // food items on plate
+            // leaf
+            ctx.fillStyle = col;
+            ctx.beginPath();
+            ctx.ellipse(cx - 16, cy - 28, 12, 8, -0.5, 0, Math.PI * 2);
+            ctx.fill();
+            // circle (fruit)
+            ctx.beginPath();
+            ctx.arc(cx + 14, cy - 24, 10, 0, Math.PI * 2);
+            ctx.fill();
+            // small veg
+            ctx.beginPath();
+            ctx.arc(cx, cy - 8, 8, 0, Math.PI * 2);
+            ctx.fill();
+            // stem on fruit
+            if (unlocked) {
+                ctx.strokeStyle = '#1a5c4a';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(cx + 14, cy - 34);
+                ctx.lineTo(cx + 14, cy - 38);
+                ctx.stroke();
+            }
+
+            ctx.fillStyle = unlocked ? '#17212B' : '#9CA3AF';
+            ctx.font = 'bold 15px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('ALIMENTAÇÃO', cx, cy + 55);
+            ctx.font = 'bold 15px Segoe UI, sans-serif';
+            ctx.fillText('SAUDÁVEL', cx, cy + 75);
+
+            for (let i = 0; i < 8; i++) {
+                const a = (i / 8) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.arc(cx + Math.cos(a) * (r - 7), cy + Math.sin(a) * (r - 7), 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = col;
+                ctx.fill();
+            }
+
+            if (!unlocked) drawLock(ctx, cx, cy + 100, 18);
+        }
+
+        function drawFoodSecurityBadge(ctx, size, unlocked) {
+            const cx = size / 2,
+                cy = size / 2,
+                r = size * 0.42;
+            const col = unlocked ? '#E76F51' : '#9CA3AF';
+            const col2 = unlocked ? '#2E8B70' : '#9CA3AF';
+            const bg = unlocked ? '#FFF8F5' : '#F3F4F6';
+
+            if (unlocked) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r + 8, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(231,111,81,0.12)';
+                ctx.fill();
+            }
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = bg;
+            ctx.fill();
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 10;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r - 16, 0, Math.PI * 2);
+            ctx.strokeStyle = col2;
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // three people stylized
+            const positions = [-32, 0, 32];
+            positions.forEach((px, i) => {
+                ctx.fillStyle = i === 1 ? col2 : col;
+                // head
+                ctx.beginPath();
+                ctx.arc(cx + px, cy - 38, 10, 0, Math.PI * 2);
+                ctx.fill();
+                // body
+                ctx.beginPath();
+                ctx.ellipse(cx + px, cy - 12, 12, 16, 0, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // shared plate / bowl at bottom
+            ctx.beginPath();
+            ctx.ellipse(cx, cy + 18, 36, 12, 0, 0, Math.PI * 2);
+            ctx.fillStyle = unlocked ? '#F4F1EA' : '#E5E7EB';
+            ctx.fill();
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // hands reaching (lines)
+            if (unlocked) {
+                ctx.strokeStyle = col;
+                ctx.lineWidth = 2.5;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(cx - 28, cy - 2);
+                ctx.quadraticCurveTo(cx - 20, cy + 10, cx - 10, cy + 14);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx + 28, cy - 2);
+                ctx.quadraticCurveTo(cx + 20, cy + 10, cx + 10, cy + 14);
+                ctx.stroke();
+            }
+
+            ctx.fillStyle = unlocked ? '#17212B' : '#9CA3AF';
+            ctx.font = 'bold 14px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('ALIMENTAÇÃO', cx, cy + 55);
+            ctx.font = 'bold 14px Segoe UI, sans-serif';
+            ctx.fillText('PARA TODOS', cx, cy + 74);
+
+            for (let i = 0; i < 8; i++) {
+                const a = (i / 8) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.arc(cx + Math.cos(a) * (r - 7), cy + Math.sin(a) * (r - 7), 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = i % 2 === 0 ? col : col2;
+                ctx.fill();
+            }
+
+            if (!unlocked) drawLock(ctx, cx, cy + 100, 18);
+        }
+
+        function drawSpecialBadgeInternal(ctx, size, unlocked) {
+            const cx = size / 2,
+                cy = size / 2,
+                r = size * 0.44;
+            const gold = '#E9C46A';
+            const dark = '#17212B';
+
+            // outer glow
+            ctx.beginPath();
+            ctx.arc(cx, cy, r + 12, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(233,196,106,0.25)';
+            ctx.fill();
+
+            // main
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = '#FFFBF0';
+            ctx.fill();
+            ctx.strokeStyle = gold;
+            ctx.lineWidth = 12;
+            ctx.stroke();
+
+            // multi rings
+            ctx.beginPath();
+            ctx.arc(cx, cy, r - 18, 0, Math.PI * 2);
+            ctx.strokeStyle = '#D4A017';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r - 28, 0, Math.PI * 2);
+            ctx.strokeStyle = gold;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // stars around
+            for (let i = 0; i < 8; i++) {
+                const a = (i / 8) * Math.PI * 2 - Math.PI / 2;
+                drawStar(ctx, cx + Math.cos(a) * (r - 8), cy + Math.sin(a) * (r - 8), 5, 5, 2.5, gold);
+            }
+
+            // central emblem - globe / people
+            ctx.fillStyle = dark;
+            ctx.beginPath();
+            ctx.arc(cx, cy - 20, 22, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = gold;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // meridian lines
+            ctx.strokeStyle = gold;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.ellipse(cx, cy - 20, 10, 22, 0, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(cx - 22, cy - 20);
+            ctx.lineTo(cx + 22, cy - 20);
+            ctx.stroke();
+
+            // small people icons below globe
+            [-18, 0, 18].forEach(px => {
+                ctx.fillStyle = gold;
+                ctx.beginPath();
+                ctx.arc(cx + px, cy + 18, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(cx + px, cy + 30, 7, 8, 0, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            ctx.fillStyle = dark;
+            ctx.font = 'bold 13px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('EMBAIXADOR', cx, cy + 58);
+            ctx.fillText('DA SAÚDE', cx, cy + 74);
+            ctx.font = '11px Segoe UI, sans-serif';
+            ctx.fillStyle = '#6B7280';
+            ctx.fillText('ODS 3 · 5/5', cx, cy + 92);
+        }
+
+        function drawStar(ctx, x, y, spikes, outer, inner, color) {
+            let rot = Math.PI / 2 * 3;
+            const step = Math.PI / spikes;
+            ctx.beginPath();
+            ctx.moveTo(x, y - outer);
+            for (let i = 0; i < spikes; i++) {
+                ctx.lineTo(x + Math.cos(rot) * outer, y + Math.sin(rot) * outer);
+                rot += step;
+                ctx.lineTo(x + Math.cos(rot) * inner, y + Math.sin(rot) * inner);
+                rot += step;
+            }
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        function drawLock(ctx, x, y, s) {
+            ctx.fillStyle = '#6B7280';
+            ctx.strokeStyle = '#6B7280';
+            ctx.lineWidth = 2.5;
+            // body
+            ctx.fillRect(x - s * 0.4, y - s * 0.15, s * 0.8, s * 0.7);
+            // shackle
+            ctx.beginPath();
+            ctx.arc(x, y - s * 0.15, s * 0.32, Math.PI, 0);
+            ctx.stroke();
+        }
+
+        function drawSpecialBadge(canvas, unlocked) {
+            drawBadge(canvas, 'special', unlocked);
+        }
+
+        /* ===== HOME PASSPORT CANVAS ===== */
+        function drawHomePassport() {
+            const canvas = document.getElementById('homePassportCanvas');
+            if (!canvas) return;
+            const w = 680,
+                h = 420;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = w * dpr;
+            canvas.height = h * dpr;
+            const ctx = canvas.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            // background
+            ctx.fillStyle = '#F4F1EA';
+            ctx.fillRect(0, 0, w, h);
+
+            // left page
+            ctx.fillStyle = '#FFFFFF';
+            ctx.shadowColor = 'rgba(0,0,0,0.08)';
+            ctx.shadowBlur = 20;
+            ctx.fillRect(30, 30, 300, 360);
+            ctx.shadowBlur = 0;
+
+            // right page
+            ctx.fillStyle = '#FFFFFF';
+            ctx.shadowColor = 'rgba(0,0,0,0.08)';
+            ctx.shadowBlur = 20;
+            ctx.fillRect(350, 30, 300, 360);
+            ctx.shadowBlur = 0;
+
+            // spine
+            ctx.fillStyle = '#2E8B70';
+            ctx.fillRect(328, 30, 24, 360);
+
+            // left content
+            ctx.fillStyle = '#17212B';
+            ctx.font = 'bold 14px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('PASSAPORTE', 180, 70);
+            ctx.font = 'bold 22px Segoe UI, sans-serif';
+            ctx.fillStyle = '#2E8B70';
+            ctx.fillText('DA SAÚDE', 180, 98);
+            ctx.font = '12px Segoe UI, sans-serif';
+            ctx.fillStyle = '#6B7280';
+            ctx.fillText('ODS 3 — Saúde e Bem-Estar', 180, 120);
+
+            // decorative line
+            ctx.strokeStyle = '#D6D0C4';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(60, 140);
+            ctx.lineTo(300, 140);
+            ctx.stroke();
+
+            ctx.font = '11px Segoe UI, sans-serif';
+            ctx.fillStyle = '#6B7280';
+            ctx.fillText('Exposição cultural interativa', 180, 165);
+            ctx.fillText('Aprenda · Jogue · Conquiste', 180, 185);
+
+            // mini badges on left
+            const types = ['foodsec', 'nutrition', 'cardio', 'mental', 'mentalgood'];
+            types.forEach((t, i) => {
+                const bx = 70 + (i % 3) * 80;
+                const by = 220 + Math.floor(i / 3) * 80;
+                drawMiniBadgeOnCtx(ctx, bx, by, 28, t, progress[t]);
+            });
+
+            // right page - progress
+            ctx.fillStyle = '#17212B';
+            ctx.font = 'bold 16px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('SEU PROGRESSO', 500, 80);
+
+            const c = countUnlocked();
+            ctx.font = 'bold 48px Segoe UI, sans-serif';
+            ctx.fillStyle = '#2E8B70';
+            ctx.fillText(c + '/5', 500, 160);
+
+            ctx.font = '13px Segoe UI, sans-serif';
+            ctx.fillStyle = '#6B7280';
+            ctx.fillText(c === 5 ? 'Passaporte completo!' : 'Continue coletando insígnias', 500, 190);
+
+            // progress bar on canvas
+            ctx.fillStyle = '#D6D0C4';
+            ctx.fillRect(400, 220, 200, 10);
+            ctx.fillStyle = '#2E8B70';
+            ctx.fillRect(400, 220, 200 * (c / 5), 10);
+
+            ctx.font = '11px Segoe UI, sans-serif';
+            ctx.fillStyle = '#6B7280';
+            ctx.fillText('Cinco missões · Cinco insígnias', 500, 270);
+            ctx.fillText('ODS 3', 500, 340);
+        }
+
+        function drawMiniBadgeOnCtx(ctx, x, y, r, type, unlocked) {
+            const col = unlocked ? BADGES[type].color : '#D1D5DB';
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fillStyle = unlocked ? '#FFFFFF' : '#F3F4F6';
+            ctx.fill();
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            if (!unlocked) {
+                ctx.fillStyle = '#9CA3AF';
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('🔒', x, y);
+            } else {
+                ctx.fillStyle = col;
+                ctx.beginPath();
+                ctx.arc(x, y, r * 0.4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        /* ===== FULL PASSPORT ===== */
+        function drawFullPassport() {
+            const canvas = document.getElementById('fullPassportCanvas');
+            if (!canvas) return;
+            const w = 840,
+                h = 560;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = w * dpr;
+            canvas.height = h * dpr;
+            const ctx = canvas.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            // bg gradient
+            const g = ctx.createLinearGradient(0, 0, w, h);
+            g.addColorStop(0, '#F4F1EA');
+            g.addColorStop(0.5, '#E8F5F0');
+            g.addColorStop(1, '#FFF8F0');
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, w, h);
+
+            // border
+            ctx.strokeStyle = '#2E8B70';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(16, 16, w - 32, h - 32);
+
+            ctx.fillStyle = '#17212B';
+            ctx.font = 'bold 32px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('PASSAPORTE DA SAÚDE', w / 2, 60);
+            ctx.font = '18px Segoe UI, sans-serif';
+            ctx.fillStyle = '#2E8B70';
+            ctx.fillText('ODS 3 — Saúde e Bem-Estar', w / 2, 90);
+
+            // 5 badges
+            const types = ['foodsec', 'nutrition', 'cardio', 'mental', 'mentalgood'];
+            const offscreen = document.createElement('canvas');
+            types.forEach((t, i) => {
+                drawBadge(offscreen, t, true);
+                const x = 50 + i * 155;
+                const y = 130;
+                ctx.drawImage(offscreen, x, y, 140, 140);
+                ctx.fillStyle = '#1A2332';
+                ctx.font = 'bold 11px Segoe UI, sans-serif';
+                ctx.textAlign = 'center';
+                const name = BADGES[t].name;
+                ctx.fillText(name, x + 70, y + 155);
+            });
+
+            // special
+            drawBadge(offscreen, 'special', true);
+            ctx.drawImage(offscreen, w / 2 - 70, 340, 140, 140);
+
+            ctx.fillStyle = '#6B7280';
+            ctx.font = '13px Segoe UI, sans-serif';
+            ctx.fillText('Todos os desafios concluídos · Embaixador da Saúde', w / 2, 510);
+            ctx.font = '11px Segoe UI, sans-serif';
+            ctx.fillText(new Date().toLocaleDateString('pt-BR'), w / 2, 530);
+        }
+
+        /* ===== DOWNLOAD ===== */
+        function downloadBadge(type) {
+            const canvas = document.createElement('canvas');
+            drawBadge(canvas, type, true);
+            canvas.toBlob(blob => {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = BADGES[type] ? BADGES[type].file : 'insignia.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+            }, 'image/png');
+        }
+
+        function downloadFullPassport() {
+            const canvas = document.getElementById('fullPassportCanvas');
+            if (!canvas) return;
+            // redraw at high res for download
+            const off = document.createElement('canvas');
+            const w = 840,
+                h = 560;
+            off.width = w * 2;
+            off.height = h * 2;
+            const ctx = off.getContext('2d');
+            ctx.scale(2, 2);
+            // reuse logic by temporarily swapping
+            const orig = document.getElementById('fullPassportCanvas');
+            const tmpId = orig.id;
+            off.id = 'fullPassportCanvas';
+            // simpler: just use current display canvas scaled
+            canvas.toBlob(blob => {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'passaporte-completo-ods3.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+            }, 'image/png');
+        }
+
+        function downloadSpecial() {
+            const canvas = document.createElement('canvas');
+            drawBadge(canvas, 'special', true);
+            canvas.toBlob(blob => {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'insignia-embaixador-da-saude.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+            }, 'image/png');
+        }
+
+        /* ===== BADGE REWARD OVERLAY ===== */
+        function showBadgeReward(type) {
+            overlayType = type;
+            const canvas = document.getElementById('overlayBadgeCanvas');
+            drawBadge(canvas, type, true);
+            const ov = document.getElementById('badgeOverlay');
+            ov.classList.remove('hidden');
+            // restart animation
+            const wrap = ov.querySelector('.badge-anim-wrap');
+            wrap.style.animation = 'none';
+            void wrap.offsetWidth;
+            wrap.style.animation = '';
+            showConfetti();
+        }
+
+        /* ===== CONFETTI ===== */
+        let confettiParticles = [];
+        let confettiRAF = null;
+
+        function showConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            confettiParticles = [];
+            const colors = ['#2E8B70', '#E76F51', '#E9C46A', '#17212B', '#FFFFFF'];
+            for (let i = 0; i < 80; i++) {
+                confettiParticles.push({
+                    x: Math.random() * canvas.width,
+                    y: -20 - Math.random() * 100,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: 2 + Math.random() * 4,
+                    w: 6 + Math.random() * 8,
+                    h: 4 + Math.random() * 6,
+                    rot: Math.random() * Math.PI * 2,
+                    vr: (Math.random() - 0.5) * 0.2,
+                    color: colors[i % colors.length],
+                    life: 120 + Math.random() * 60
+                });
+            }
+            if (confettiRAF) cancelAnimationFrame(confettiRAF);
+
+            function tick() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let alive = false;
+                confettiParticles.forEach(p => {
+                    if (p.life <= 0) return;
+                    alive = true;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.05;
+                    p.rot += p.vr;
+                    p.life--;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot);
+                    ctx.globalAlpha = Math.min(1, p.life / 40);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+                });
+                if (alive) confettiRAF = requestAnimationFrame(tick);
+                else ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            tick();
+        }
+
+        /* ===== UI UPDATES ===== */
+        function updateAllUI() {
+            const c = countUnlocked();
+            document.getElementById('homeCount').textContent = c;
+            document.getElementById('homeProgressFill').style.width = (c / 5 * 100) + '%';
+            const gc = document.getElementById('galleryCount');
+            if (gc) gc.textContent = c;
+            drawHomePassport();
+            renderGamesMenu();
+            renderGallery();
+        }
+
+        function renderGamesMenu() {
+            const grid = document.getElementById('gamesGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            GAMES.forEach(g => {
+                const unlocked = progress[g.badge];
+                const card = document.createElement('button');
+                card.className = 'game-card';
+                card.setAttribute('aria-label', 'Jogar ' + g.title);
+                const canvas = document.createElement('canvas');
+                canvas.width = 160;
+                canvas.height = 160;
+                canvas.style.width = '72px';
+                canvas.style.height = '72px';
+                drawBadge(canvas, g.badge, unlocked);
+                card.innerHTML = `
+      <span class="game-card-num">${g.num}</span>
+      <div></div>
+      <div class="game-card-title">${g.title}</div>
+      <div class="game-card-theme">${g.theme}</div>
+      <div class="game-card-status ${unlocked ? 'unlocked' : 'locked'}">${unlocked ? 'Insígnia conquistada' : 'Bloqueada'}</div>
+    `;
+                card.children[1].appendChild(canvas);
+                card.onclick = () => startGame(g.id);
+                grid.appendChild(card);
+            });
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            Object.keys(BADGES).forEach(type => {
+                const b = BADGES[type];
+                const unlocked = progress[type];
+                const item = document.createElement('div');
+                item.className = 'gallery-item' + (unlocked ? ' unlocked' : '');
+                const canvas = document.createElement('canvas');
+                canvas.width = 300;
+                canvas.height = 300;
+                canvas.style.width = '140px';
+                canvas.style.height = '140px';
+                drawBadge(canvas, type, unlocked);
+                item.appendChild(canvas);
+                const h3 = document.createElement('h3');
+                h3.textContent = b.name;
+                item.appendChild(h3);
+                const st = document.createElement('div');
+                st.className = 'status ' + (unlocked ? 'ok' : 'no');
+                st.textContent = unlocked ? 'Conquistada' : 'Bloqueada';
+                item.appendChild(st);
+                if (unlocked) {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn btn-green btn-sm';
+                    btn.textContent = 'Baixar PNG';
+                    btn.onclick = () => downloadBadge(type);
+                    item.appendChild(btn);
+                }
+                grid.appendChild(item);
+            });
+        }
+
+        /* ===== INIT ===== */
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+
+            document.addEventListener('click', e => {
+                const btn = e.target.closest('[data-screen]');
+                if (btn) {
+                    e.preventDefault();
+                    showScreen(btn.dataset.screen);
+                }
+            });
+
+            document.getElementById('navToggle').addEventListener('click', () => {
+                document.getElementById('navList').classList.toggle('open');
+            });
+
+            document.getElementById('resetBtn').addEventListener('click', () => {
+                document.getElementById('resetModal').classList.remove('hidden');
+            });
+            document.getElementById('cancelReset').addEventListener('click', () => {
+                document.getElementById('resetModal').classList.add('hidden');
+            });
+            document.getElementById('confirmReset').addEventListener('click', resetProgress);
+
+            document.getElementById('downloadOverlayBtn').addEventListener('click', () => {
+                if (overlayType) downloadBadge(overlayType);
+            });
+            document.getElementById('closeOverlayBtn').addEventListener('click', () => {
+                document.getElementById('badgeOverlay').classList.add('hidden');
+                showScreen('gallery');
+            });
+
+            document.getElementById('downloadFullBtn').addEventListener('click', downloadFullPassport);
+            document.getElementById('downloadSpecialBtn').addEventListener('click', downloadSpecial);
+
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') {
+                    document.getElementById('badgeOverlay').classList.add('hidden');
+                    document.getElementById('resetModal').classList.add('hidden');
+                    document.getElementById('navList').classList.remove('open');
+                }
+            });
+
+            drawHomePassport();
+            renderGamesMenu();
+        });
+    </script>
+
+
+</body></html>
